@@ -29,7 +29,8 @@ export default function Home() {
       audioRef.current.play();
       setIsPlaying(true);
     }
-  }, [playlist.length, audioRef]);
+  }, [playlist]); // ✅ Add playlist as a dependency
+  
   
   useEffect(() => {
     const audioElement = audioRef.current;

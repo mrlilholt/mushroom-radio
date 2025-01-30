@@ -30,7 +30,6 @@ export default function Sidebar() {
         onClose={toggleDrawer}
         direction="left"
         className="w-16 p-4 flex flex-col space-y-6 items-center"
-        drawerClassName="!bg-gray-900 !text-white"
       >
         {/* ❌ Close Button */}
         <motion.button
