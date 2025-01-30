@@ -19,6 +19,16 @@ export default function Home() {
   const [currentTrack, setCurrentTrack] = useState(Math.floor(Math.random() * playlist.length)); // Start with random track
   const [isPlaying, setIsPlaying] = useState(false);
 
+  const nextTrack = useCallback(() => {
+    const nextIndex = Math.floor(Math.random() * playlist.length);
+    setCurrentTrack(nextIndex);
+    if (audioRef.current) {
+      audioRef.current.src = playlist[nextIndex].url;
+      audioRef.current.play();
+      setIsPlaying(true);
+    }
+  }, [playlist.length, audioRef]);
+  
   useEffect(() => {
     const audioElement = audioRef.current;
     if (audioElement) {
@@ -28,20 +38,7 @@ export default function Home() {
       if (audioElement) {
         audioElement.removeEventListener("ended", nextTrack);
       }
-    };
-  }, [nextTrack]); // ✅ Add nextTrack to dependencies
   
-
-  // 🔀 Always shuffle to a random song
-  const nextTrack = () => {
-    const nextIndex = Math.floor(Math.random() * playlist.length);
-    setCurrentTrack(nextIndex);
-    if (audioRef.current) {
-      audioRef.current.src = playlist[nextIndex].url;
-      audioRef.current.play();
-      setIsPlaying(true);
-    }
-  };
 
   // ▶️ Play / Pause Function
   const togglePlay = () => {
