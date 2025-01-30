@@ -2,7 +2,8 @@
 import { useState } from "react";
 import Drawer from "react-modern-drawer";
 import "react-modern-drawer/dist/index.css";
-import { Menu, X } from "lucide-react";
+import { Menu, X, Info, Settings, Home } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function Sidebar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -14,34 +15,59 @@ export default function Sidebar() {
   return (
     <>
       {/* 🏠 Menu Button (Hamburger Icon) */}
-      <button
+      <motion.button
         onClick={toggleDrawer}
-        className="absolute top-4 left-4 p-3 rounded-lg bg-white/10 backdrop-blur-md text-white hover:bg-white/20 transition"
+        whileHover={{ scale: 1.2 }}
+        whileTap={{ scale: 0.9 }}
+        className="fixed top-4 left-4 text-white bg-gray-800 p-3 rounded-full shadow-lg"
       >
         <Menu className="w-6 h-6" />
-      </button>
+      </motion.button>
 
-      {/* 📜 Sidebar Drawer */}
+      {/* 📂 Mini Sidebar Drawer (Now Super Slim) */}
       <Drawer
         open={isOpen}
         onClose={toggleDrawer}
         direction="left"
-        className="bg-gray-900 text-white w-64 p-6"
+        className="w-16 p-4 flex flex-col space-y-6 items-center"
+        drawerClassName="!bg-gray-900 !text-white"
       >
         {/* ❌ Close Button */}
-        <button onClick={toggleDrawer} className="absolute top-4 right-4">
-          <X className="w-6 h-6" />
-        </button>
+        <motion.button
+          onClick={toggleDrawer}
+          whileHover={{ scale: 1.2 }}
+          whileTap={{ scale: 0.9 }}
+          className="text-white"
+        >
+          <X className="w-5 h-5" />
+        </motion.button>
 
-        {/* 🌟 Menu Content */}
-        <nav className="mt-10 flex flex-col space-y-4">
-          <a href="#" className="text-lg hover:text-green-400 transition">
-            📜 About
-          </a>
-          <a href="#" className="text-lg hover:text-green-400 transition">
-            ⚙️ Settings
-          </a>
-        </nav>
+        {/* 🏠 Home (New Icon) */}
+        <motion.a
+          href="/"
+          whileHover={{ scale: 1.2 }}
+          whileTap={{ scale: 0.9 }}
+        >
+          <Home className="w-8 h-8 text-yellow-400 hover:text-blue-400 transition" />
+        </motion.a>
+
+        {/* 📄 About */}
+        <motion.a
+          href="/about"
+          whileHover={{ scale: 1.2 }}
+          whileTap={{ scale: 0.9 }}
+        >
+          <Info className="w-8 h-8 text-pink-400 hover:text-blue-400 transition" />
+        </motion.a>
+
+        {/* ⚙️ Settings */}
+        <motion.a
+          href="/settings"
+          whileHover={{ scale: 1.2 }}
+          whileTap={{ scale: 0.9 }}
+        >
+          <Settings className="w-8 h-8 text-blue-400 hover:text-blue-400 transition" />
+        </motion.a>
       </Drawer>
     </>
   );
