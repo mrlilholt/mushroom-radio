@@ -1,6 +1,6 @@
 "use client";
 import { useState, useRef, useEffect } from "react";
-import { Play, Pause, SkipForward } from "lucide-react";
+import { Play, Pause } from "lucide-react";
 import { motion } from "framer-motion";
 
 export default function Home() {
@@ -20,13 +20,17 @@ export default function Home() {
   const [isPlaying, setIsPlaying] = useState(false);
 
   useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.addEventListener("ended", nextTrack);
+    const audioElement = audioRef.current;
+    if (audioElement) {
+      audioElement.addEventListener("ended", nextTrack);
     }
     return () => {
-      audioRef.current?.removeEventListener("ended", nextTrack);
+      if (audioElement) {
+        audioElement.removeEventListener("ended", nextTrack);
+      }
     };
-  }, []);
+  }, [nextTrack]); // ✅ Add nextTrack to dependencies
+  
 
   // 🔀 Always shuffle to a random song
   const nextTrack = () => {
