@@ -56,9 +56,10 @@ export default function Home() {
 
   return (
     <main className="flex flex-col items-center space-y-6 bg-gray-900 text-white min-h-screen justify-center">
-      <h1 className="text-5xl font-bold mb-4 font-[Pacifico]">
-        📻 Mushroom Radio 📻
+      <h1 className="text-5xl md:text-6xl font-bold mb-4 text-center whitespace-nowrap">
+  📻 Mushroom Radio 📻
       </h1>
+
 
 
       {/* 🎵 Track Title */}
