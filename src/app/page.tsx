@@ -2,6 +2,8 @@
 import { useState, useRef, useEffect, useCallback } from "react";
 import { Play, Pause } from "lucide-react";
 import { motion } from "framer-motion";
+import Sidebar from "@/components/Sidebar";
+
 
 export default function Home() {
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -56,6 +58,7 @@ export default function Home() {
 
   return (
     <main className="flex flex-col items-center space-y-6 bg-gray-900 text-white min-h-screen justify-center">
+      <Sidebar />
       <h1 className="text-[8vw] sm:text-5xl md:text-6xl font-bold mb-4 text-center whitespace-nowrap leading-tight">
   📻 Mushroom Radio 📻
 </h1>
