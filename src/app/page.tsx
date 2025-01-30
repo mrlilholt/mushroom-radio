@@ -1,4 +1,6 @@
 "use client";
+const [nowPlaying, setNowPlaying] = useState(fakeTracks[Math.floor(Math.random() * fakeTracks.length)]);
+
 import { useState, useRef, useEffect, useCallback } from "react";
 import { Play, Pause } from "lucide-react";
 import { motion } from "framer-motion";

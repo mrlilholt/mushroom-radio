@@ -26,11 +26,14 @@ export default function Sidebar() {
 
       {/* 📂 Mini Sidebar Drawer (Now Super Slim) */}
       <Drawer
-        open={isOpen}
-        onClose={toggleDrawer}
-        direction="left"
-        className="w-16 p-4 flex flex-col space-y-6 items-center"
-      >
+  open={isOpen}
+  onClose={toggleDrawer}
+  direction="left"
+  className="w-16 p-4 flex flex-col space-y-6 items-center !max-w-[4rem] !min-w-[4rem]" // Force width to be icon-sized
+  overlayClassName="!bg-transparent" // Optional: Removes overlay color
+  style={{ width: "4rem", minWidth: "4rem", maxWidth: "4rem" }} // Enforces width at all breakpoints
+>
+
         {/* ❌ Close Button */}
         <motion.button
           onClick={toggleDrawer}
