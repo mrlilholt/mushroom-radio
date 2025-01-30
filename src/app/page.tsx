@@ -38,6 +38,8 @@ export default function Home() {
       if (audioElement) {
         audioElement.removeEventListener("ended", nextTrack);
       }
+    }; // ✅ Added missing closing bracket
+  }, [nextTrack]); // ✅ Dependency array
   
 
   // ▶️ Play / Pause Function
