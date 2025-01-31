@@ -1,6 +1,4 @@
 "use client";
-const [nowPlaying, setNowPlaying] = useState(fakeTracks[Math.floor(Math.random() * fakeTracks.length)]);
-
 import { useState, useRef, useEffect, useCallback } from "react";
 import { Play, Pause } from "lucide-react";
 import { motion } from "framer-motion";
@@ -9,6 +7,7 @@ import Sidebar from "@/components/Sidebar";
 export default function Home() {
   const audioRef = useRef<HTMLAudioElement>(null);
 
+ 
   // 🎵 Playlist Array (Actual Audio Tracks)
   const playlist = [
     { title: "Chill Vibes ☕", url: "https://res.cloudinary.com/dkewu76nu/video/upload/v1738196209/csb5_mkgvbg.mp3" },
@@ -398,36 +397,32 @@ export default function Home() {
     { song: "Morel Mosaic", artist: "Morchella Medley" }
 ];
 
-const [currentTrack, setCurrentTrack] = useState(Math.floor(Math.random() * playlist.length));
-const [isPlaying, setIsPlaying] = useState(false);
-const [nowPlayingIndex, setNowPlayingIndex] = useState(Math.floor(Math.random() * fakeTracks.length)); // Random starting point
+ // 🎵 Playlist & Fake Song Indexes
+ const [currentTrack, setCurrentTrack] = useState(Math.floor(Math.random() * playlist.length));
+ const [isPlaying, setIsPlaying] = useState(false);
+ const [nowPlayingIndex, setNowPlayingIndex] = useState(Math.floor(Math.random() * fakeTracks.length));
 
-  // 🔄 Switch Fake "Now Playing" Every 3.5 - 5 Minutes
+  // 🎵 Auto-update Fake "Now Playing" Every 3.5 - 5 Minutes
   useEffect(() => {
     const interval = setInterval(() => {
-      const randomIndex = Math.floor(Math.random() * fakeTracks.length);
-      setNowPlaying(fakeTracks[randomIndex]);
-    }, Math.random() * (300000 - 210000) + 210000); // 3.5 - 5 mins
+      setNowPlayingIndex((prevIndex) => (prevIndex + 1) % fakeTracks.length); // Moves through list
+    }, Math.random() * (300000 - 210000) + 210000); // 3.5 - 5 mins in ms
 
     return () => clearInterval(interval);
   }, []);
 
-  // 🔀 Skip to Next Track
+  // 🔀 Skip to Next Track (Syncs Real Audio + Fake Track)
   const nextTrack = useCallback(() => {
-    // Pick a new audio track at random
     const nextIndex = Math.floor(Math.random() * playlist.length);
     setCurrentTrack(nextIndex);
-  
-    // Move to the next fake track in order, looping back to the start when necessary
     setNowPlayingIndex((prevIndex) => (prevIndex + 1) % fakeTracks.length);
-  
+
     if (audioRef.current) {
       audioRef.current.src = playlist[nextIndex].url;
       audioRef.current.play();
       setIsPlaying(true);
     }
-  }, [playlist]); // ✅ Keep playlist dependency
-  
+  }, []);
 
   // ▶️ Play / Pause Function
   const togglePlay = () => {
@@ -444,7 +439,7 @@ const [nowPlayingIndex, setNowPlayingIndex] = useState(Math.floor(Math.random() 
   return (
     <main className="flex flex-col items-center space-y-6 bg-gray-900 text-white min-h-screen justify-center">
       <Sidebar />
-      
+
       {/* 🏷️ Title */}
       <h1 className="text-[8vw] sm:text-5xl md:text-6xl font-bold mb-4 text-center whitespace-nowrap leading-tight">
         📻 Mushroom Radio 📻
@@ -452,11 +447,11 @@ const [nowPlayingIndex, setNowPlayingIndex] = useState(Math.floor(Math.random() 
 
       {/* 🎵 "Now Playing" Display (Stationary Box, Scrolling Text) */}
       <div className="flex flex-col items-center">
-        <p className="text-xl font-semibold text-blue-300 mb-4">Now Playing:</p>
+        <p className="text-xl font-semibold text-blue-300 mb-2">Now Playing:</p>
         <div className="relative w-64 h-10 bg-white/10 px-6 py-2 rounded-lg backdrop-blur-md shadow-md overflow-hidden">
           <motion.div
-            className="absolute w-max"
-            animate={{ x: ["100%", "-100%"] }} // Only text moves
+            className="absolute left-0 w-max whitespace-nowrap"
+            animate={{ x: ["100%", "-100%"] }} // Scrolls inside box
             transition={{ repeat: Infinity, duration: 8, ease: "linear" }}
           >
             {fakeTracks[nowPlayingIndex].song} - {fakeTracks[nowPlayingIndex].artist}
@@ -486,19 +481,18 @@ const [nowPlayingIndex, setNowPlayingIndex] = useState(Math.floor(Math.random() 
       </div>
 
       {/* 🎮 Play/Pause Button */}
-<div className="flex space-x-4 mt-4">
-  <motion.button
-    whileHover={{ scale: 1.2 }}
-    whileTap={{ scale: 0.9 }}
-    animate={isPlaying ? { scale: [1, 1.1, 1], boxShadow: ["0px 0px 10px #ff00ff", "0px 0px 20px #ff9900", "0px 0px 10px #ff00ff"] } : {}}
-    transition={isPlaying ? { duration: 1, repeat: Infinity, ease: "easeInOut" } : {}}
-    onClick={togglePlay}
-    className="neon-button w-16 h-16 flex items-center justify-center rounded-full bg-gray-800 shadow-lg border-2 border-white"
-  >
-    {isPlaying ? <Pause className="w-10 h-10" /> : <Play className="w-10 h-10" />}
-  </motion.button>
-</div>
-
+      <div className="flex space-x-4 mt-4">
+        <motion.button
+          whileHover={{ scale: 1.2 }}
+          whileTap={{ scale: 0.9 }}
+          animate={isPlaying ? { scale: [1, 1.1, 1], boxShadow: ["0px 0px 10px #ff00ff", "0px 0px 20px #ff9900", "0px 0px 10px #ff00ff"] } : {}}
+          transition={isPlaying ? { duration: 1, repeat: Infinity, ease: "easeInOut" } : {}}
+          onClick={togglePlay}
+          className="neon-button w-16 h-16 flex items-center justify-center rounded-full bg-gray-800 shadow-lg border-2 border-white"
+        >
+          {isPlaying ? <Pause className="w-10 h-10" /> : <Play className="w-10 h-10" />}
+        </motion.button>
+      </div>
     </main>
   );
 }
