@@ -7,7 +7,6 @@ import Sidebar from "@/components/Sidebar";
 export default function Home() {
   const audioRef = useRef<HTMLAudioElement>(null);
 
- 
   // 🎵 Playlist Array (Actual Audio Tracks)
   const playlist = [
     { title: "Chill Vibes ☕", url: "https://res.cloudinary.com/dkewu76nu/video/upload/v1738196209/csb5_mkgvbg.mp3" },
@@ -397,10 +396,10 @@ export default function Home() {
     { song: "Morel Mosaic", artist: "Morchella Medley" }
 ];
 
- // 🎵 Playlist & Fake Song Indexes
- const [currentTrack, setCurrentTrack] = useState(Math.floor(Math.random() * playlist.length));
- const [isPlaying, setIsPlaying] = useState(false);
- const [nowPlayingIndex, setNowPlayingIndex] = useState(Math.floor(Math.random() * fakeTracks.length));
+  // 🎵 Playlist & Fake Song Indexes
+  const [currentTrack, setCurrentTrack] = useState(Math.floor(Math.random() * playlist.length));
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [nowPlayingIndex, setNowPlayingIndex] = useState(Math.floor(Math.random() * fakeTracks.length));
 
   // 🎵 Auto-update Fake "Now Playing" Every 3.5 - 5 Minutes
   useEffect(() => {
@@ -409,7 +408,7 @@ export default function Home() {
     }, Math.random() * (300000 - 210000) + 210000); // 3.5 - 5 mins in ms
 
     return () => clearInterval(interval);
-  }, []);
+  }, [fakeTracks.length]); // ✅ Fix: Added `fakeTracks.length` to dependency array
 
   // 🔀 Skip to Next Track (Syncs Real Audio + Fake Track)
   const nextTrack = useCallback(() => {
@@ -422,7 +421,7 @@ export default function Home() {
       audioRef.current.play();
       setIsPlaying(true);
     }
-  }, []);
+  }, [playlist, fakeTracks.length]); // ✅ Fix: Added missing dependencies
 
   // ▶️ Play / Pause Function
   const togglePlay = () => {
@@ -435,6 +434,18 @@ export default function Home() {
       setIsPlaying(!isPlaying);
     }
   };
+
+  // 🔄 Auto-Skip to Next Track When Current One Ends
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.addEventListener("ended", nextTrack);
+    }
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.removeEventListener("ended", nextTrack);
+      }
+    };
+  }, [nextTrack]); // ✅ Fix: Ensures `nextTrack` is actually used
 
   return (
     <main className="flex flex-col items-center space-y-6 bg-gray-900 text-white min-h-screen justify-center">
