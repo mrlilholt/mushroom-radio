@@ -448,13 +448,25 @@ export default function Home() {
   }, [nextTrack]); // ✅ Fix: Ensures `nextTrack` is actually used
 
   return (
-    <main className="flex flex-col items-center space-y-6 bg-gray-900 text-white min-h-screen justify-center">
-      <Sidebar />
+<main className="flex flex-col items-center space-y-6 bg-transparent text-white min-h-screen justify-center relative w-full">
+<Sidebar />
+  {/* 🎥 Background Video */}
+  <video
+  autoPlay
+  loop
+  muted
+  playsInline
+  className="absolute top-0 left-0 w-full h-full object-cover z-[-1]"
+>
+  <source src="/mushroom_bg.mp4" type="video/mp4" />
+</video>
 
       {/* 🏷️ Title */}
-      <h1 className="text-[8vw] sm:text-5xl md:text-6xl font-bold mb-4 text-center whitespace-nowrap leading-tight">
-        📻 Mushroom Radio 📻
-      </h1>
+      <div className="relative z-10 backdrop-blur-md p-6 rounded-lg">
+  <h1 className="text-[8vw] sm:text-5xl md:text-6xl font-bold mb-4 text-center whitespace-nowrap leading-tight">
+    📻 Mushroom Radio 📻
+  </h1>
+</div>
 
       {/* 🎵 "Now Playing" Display (Stationary Box, Scrolling Text) */}
       <div className="flex flex-col items-center">
