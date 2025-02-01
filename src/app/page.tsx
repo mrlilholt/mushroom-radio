@@ -4,8 +4,7 @@ import { Play, Pause } from "lucide-react";
 import { motion } from "framer-motion";
 import Sidebar from "@/components/Sidebar";
 
-export default function Home() {
-  const audioRef = useRef<HTMLAudioElement>(null);
+
 
   // 🎵 Playlist Array (Actual Audio Tracks)
   const playlist = [
@@ -396,85 +395,82 @@ export default function Home() {
     { song: "Morel Mosaic", artist: "Morchella Medley" }
 ];
 
-  // 🎵 Playlist & Fake Song Indexes
+export default function Home() {
   const [currentTrack, setCurrentTrack] = useState(Math.floor(Math.random() * playlist.length));
   const [isPlaying, setIsPlaying] = useState(false);
   const [nowPlayingIndex, setNowPlayingIndex] = useState(Math.floor(Math.random() * fakeTracks.length));
+  const audioRef = useRef<HTMLAudioElement>(null);
+  const logoRef = useRef<HTMLImageElement>(null);
 
-  // 🎵 Auto-update Fake "Now Playing" Every 3.5 - 5 Minutes
+  // 🌿 Ambient Sounds
+  const [rainSound, setRainSound] = useState(false);
+  const [windSound, setWindSound] = useState(false);
+  const [forestSound, setForestSound] = useState(false);
+
   useEffect(() => {
     const interval = setInterval(() => {
-      setNowPlayingIndex((prevIndex) => (prevIndex + 1) % fakeTracks.length); // Moves through list
-    }, Math.random() * (300000 - 210000) + 210000); // 3.5 - 5 mins in ms
+      setNowPlayingIndex((prevIndex) => (prevIndex + 1) % fakeTracks.length);
+    }, 210000);
 
     return () => clearInterval(interval);
-  }, [fakeTracks.length]); // ✅ Fix: Added `fakeTracks.length` to dependency array
+  }, []);
 
-  // 🔀 Skip to Next Track (Syncs Real Audio + Fake Track)
-  const nextTrack = useCallback(() => {
-    const nextIndex = Math.floor(Math.random() * playlist.length);
-    setCurrentTrack(nextIndex);
-    setNowPlayingIndex((prevIndex) => (prevIndex + 1) % fakeTracks.length);
-
-    if (audioRef.current) {
-      audioRef.current.src = playlist[nextIndex].url;
-      audioRef.current.play();
-      setIsPlaying(true);
-    }
-  }, [playlist, fakeTracks.length]); // ✅ Fix: Added missing dependencies
-
-  // ▶️ Play / Pause Function
   const togglePlay = () => {
     if (audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.pause();
-      } else {
-        audioRef.current.play();
-      }
+      isPlaying ? audioRef.current.pause() : audioRef.current.play();
       setIsPlaying(!isPlaying);
+  
+      // Add or remove the animation class
+      if (logoRef.current) {
+        logoRef.current.classList.toggle("is-playing", !isPlaying);
+      }
     }
   };
 
-  // 🔄 Auto-Skip to Next Track When Current One Ends
   useEffect(() => {
-    if (audioRef.current) {
-      audioRef.current.addEventListener("ended", nextTrack);
-    }
-    return () => {
-      if (audioRef.current) {
-        audioRef.current.removeEventListener("ended", nextTrack);
+    const playAmbient = (id: string, condition: boolean) => {
+      const audioElement = document.getElementById(id) as HTMLAudioElement;
+      if (audioElement) {
+        condition ? audioElement.play() : audioElement.pause();
       }
     };
-  }, [nextTrack]); // ✅ Fix: Ensures `nextTrack` is actually used
+
+    playAmbient("rain-audio", rainSound);
+    playAmbient("wind-audio", windSound);
+    playAmbient("forest-audio", forestSound);
+  }, [rainSound, windSound, forestSound]);
 
   return (
-<main className="flex flex-col items-center space-y-6 bg-transparent text-white min-h-screen justify-center relative w-full">
-<Sidebar />
-  {/* 🎥 Background Video */}
-  <video
-  autoPlay
-  loop
-  muted
-  playsInline
-  className="absolute top-0 left-0 w-full h-full object-cover z-[-1]"
->
-  <source src="/mushroom_bg.mp4" type="video/mp4" />
-</video>
+    <main className="flex flex-col items-center space-y-6 bg-transparent text-white min-h-screen justify-center relative w-full">
+      <Sidebar />
 
-      {/* 🏷️ Title */}
-      <div className="relative z-10 backdrop-blur-md p-6 rounded-lg">
-  <h1 className="text-[8vw] sm:text-5xl md:text-6xl font-bold mb-4 text-center whitespace-nowrap leading-tight">
-    📻 Mushroom Radio 📻
-  </h1>
+      {/* 🎥 Background Video */}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute top-0 left-0 w-full h-full object-cover z-[-1]"
+      >
+        <source src="/mushroom_bg.mp4" type="video/mp4" />
+      </video>
+
+      {/* 🏷️ Title with Frosted Glass */}
+      <div className="frosted-glass text-center">
+      <div class="logo-container">
+  <img src="/mushroomRadioLogo.png" alt="Mushroom Radio Logo" class="logo-image" ref={logoRef}  // 👈 Add this line 
+  />
+  
 </div>
+      </div>
 
-      {/* 🎵 "Now Playing" Display (Stationary Box, Scrolling Text) */}
-      <div className="flex flex-col items-center">
-        <p className="text-xl font-semibold text-blue-300 mb-2">Now Playing:</p>
-        <div className="relative w-64 h-10 bg-white/10 px-6 py-2 rounded-lg backdrop-blur-md shadow-md overflow-hidden">
+      {/* 🎵 Now Playing Section */}
+      <div className="frosted-glass text-center">
+        <p className="title-font text-2xl font-semibold text-blue-300">Now Playing:</p>
+        <div className="relative w-64 h-10 bg-white/10 px-6 py-2 rounded-lg shadow-md overflow-hidden">
           <motion.div
             className="absolute left-0 w-max whitespace-nowrap"
-            animate={{ x: ["100%", "-100%"] }} // Scrolls inside box
+            animate={{ x: ["100%", "-100%"] }}
             transition={{ repeat: Infinity, duration: 8, ease: "linear" }}
           >
             {fakeTracks[nowPlayingIndex].song} - {fakeTracks[nowPlayingIndex].artist}
@@ -482,40 +478,63 @@ export default function Home() {
         </div>
       </div>
 
-      {/* 🎧 Audio Player (Hidden) */}
+      {/* 🎧 Audio Player */}
       <audio ref={audioRef} autoPlay>
         <source src={playlist[currentTrack].url} type="audio/mp3" />
       </audio>
 
-      {/* 🔊 Animated Music Bars */}
-      <div className="flex space-x-2 h-12 mt-4">
-        {[...Array(5)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="w-2 bg-green-400 rounded"
-            animate={isPlaying ? { height: [10, 30, 10] } : { height: 10 }} 
-            transition={{
-              repeat: isPlaying ? Infinity : 0,
-              duration: 0.8 + i * 0.2,
-              ease: "easeInOut",
-            }}
-          />
+      {/* 🎮 Play/Pause Button */}
+      <motion.button
+        whileHover={{ scale: 1.2 }}
+        whileTap={{ scale: 0.9 }}
+        animate={
+          isPlaying
+            ? {
+                scale: [1, 1.1, 1],
+                boxShadow: ["0px 0px 10px #ff00ff", "0px 0px 20px #ff9900", "0px 0px 10px #ff00ff"],
+              }
+            : {}
+        }
+        transition={isPlaying ? { duration: 1, repeat: Infinity, ease: "easeInOut" } : {}}
+        onClick={togglePlay}
+        className="w-16 h-16 flex items-center justify-center rounded-full bg-gray-800 shadow-lg border-2 border-white"
+      >
+        {isPlaying ? <Pause className="w-10 h-10" /> : <Play className="w-10 h-10" />}
+      </motion.button>
+
+      {/* 🌿 Ambient Sound Toggles with Frosted Glass */}
+      <div className="frosted-glass flex space-x-4 mt-4">
+        {[
+          { label: "Rain", state: rainSound, setState: setRainSound, id: "rain-audio" },
+          { label: "Wind", state: windSound, setState: setWindSound, id: "wind-audio" },
+          { label: "Forest", state: forestSound, setState: setForestSound, id: "forest-audio" },
+        ].map(({ label, state, setState }, index) => (
+          <div key={index} className="flex items-center space-x-2">
+            <span>{label}</span>
+            <label className="relative inline-flex items-center cursor-pointer">
+              <input
+                type="checkbox"
+                className="sr-only peer"
+                checked={state}
+                onChange={() => setState(!state)}
+              />
+              <div className="w-11 h-6 bg-gray-300 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-500 rounded-full peer dark:bg-gray-700 peer-checked:bg-green-400 transition duration-300"></div>
+              <div className="absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform duration-300 peer-checked:translate-x-5"></div>
+            </label>
+          </div>
         ))}
       </div>
 
-      {/* 🎮 Play/Pause Button */}
-      <div className="flex space-x-4 mt-4">
-        <motion.button
-          whileHover={{ scale: 1.2 }}
-          whileTap={{ scale: 0.9 }}
-          animate={isPlaying ? { scale: [1, 1.1, 1], boxShadow: ["0px 0px 10px #ff00ff", "0px 0px 20px #ff9900", "0px 0px 10px #ff00ff"] } : {}}
-          transition={isPlaying ? { duration: 1, repeat: Infinity, ease: "easeInOut" } : {}}
-          onClick={togglePlay}
-          className="neon-button w-16 h-16 flex items-center justify-center rounded-full bg-gray-800 shadow-lg border-2 border-white"
-        >
-          {isPlaying ? <Pause className="w-10 h-10" /> : <Play className="w-10 h-10" />}
-        </motion.button>
-      </div>
+      {/* 🎧 Ambient Audio Elements */}
+      <audio id="rain-audio" loop>
+        <source src="https://res.cloudinary.com/dkewu76nu/video/upload/v1738371461/rain_epwjpq.mp3" type="audio/mp3" />
+      </audio>
+      <audio id="wind-audio" loop>
+        <source src="https://res.cloudinary.com/dkewu76nu/video/upload/v1738371452/wind_otfrvy.mp3" type="audio/mp3" />
+      </audio>
+      <audio id="forest-audio" loop>
+        <source src="https://res.cloudinary.com/dkewu76nu/video/upload/v1738371462/forest_tb0i4y.mp3" type="audio/mp3" />
+      </audio>
     </main>
   );
 }

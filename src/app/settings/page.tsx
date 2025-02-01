@@ -1,12 +1,10 @@
 "use client";
-import { useState } from "react";
 import { motion } from "framer-motion";
-import { Sun, Moon, Volume2, Shuffle, Music } from "lucide-react";
+import { Sun, Moon, Volume2, Music } from "lucide-react";
+import { useSettings } from "@/context/SettingsContext";
 
 export default function Settings() {
-  const [darkMode, setDarkMode] = useState(true);
-  const [volume, setVolume] = useState(50);
-  const [shuffle, setShuffle] = useState(true);
+  const { darkMode, setDarkMode, volume, setVolume } = useSettings();
 
   return (
     <main className="min-h-screen flex flex-col items-center justify-center text-white bg-gray-900 px-6">
@@ -27,7 +25,7 @@ export default function Settings() {
       </motion.button>
 
       {/* 🔊 Volume Slider */}
-      <div className="flex flex-col items-center w-full max-w-xs mb-4">
+      <div className="flex flex-col items-center w-full max-w-xs mb-6">
         <label className="text-lg font-semibold flex items-center space-x-3">
           <Volume2 className="w-6 h-6 text-green-400" />
           <span>Volume</span>
@@ -41,18 +39,6 @@ export default function Settings() {
           className="w-full mt-2"
         />
       </div>
-
-      {/* 🔀 Shuffle Mode */}
-      <motion.button
-        onClick={() => setShuffle(!shuffle)}
-        whileTap={{ scale: 0.9 }}
-        className={`flex items-center space-x-3 text-lg font-semibold px-4 py-2 rounded-lg shadow-md transition ${
-          shuffle ? "bg-green-500 hover:bg-green-400" : "bg-gray-700 hover:bg-gray-600"
-        }`}
-      >
-        <Shuffle className="w-6 h-6" />
-        <span>{shuffle ? "Shuffle On" : "Shuffle Off"}</span>
-      </motion.button>
     </main>
   );
 }

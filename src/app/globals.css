@@ -1,3 +1,81 @@
+@import url('https://fonts.googleapis.com/css2?family=Henny+Penny&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Rampart+One&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.frosted-glass {
+  background: rgba(255, 255, 255, 0.1); /* Light transparency */
+  backdrop-filter: blur(10px);          /* Frosted glass effect */
+  -webkit-backdrop-filter: blur(10px);  /* Safari compatibility */
+  border-radius: 12px;                  /* Smooth rounded corners */
+  padding: 10px 20px;                   /* Spacing inside the box */
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+  border: 1px solid rgba(255, 255, 255, 0.2); /* Light border */
+}
+
+body {
+  font-family: 'Roboto Mono', cursive;
+}
+.title-font {
+  font-family: 'Roboto Mono', cursive;
+}
+
+.title-3d {
+  font-family: 'Rampart One', cursive;
+  font-size: 5rem; /* Adjust as needed */
+  color: #ffffff; /* Main text color */
+  text-transform: uppercase;
+  letter-spacing: 5px;
+  position: relative;
+  display: inline-block;
+  transform: skew(-10deg); /* Tilted effect */
+  text-shadow:
+    2px 2px 0 #00aaff,  /* Light blue shadow */
+    4px 4px 0 #0077cc,  /* Darker blue shadow */
+    6px 6px 0 #005599,  /* Even darker */
+    8px 8px 0 #003366,  /* Deepest shadow */
+    10px 10px 0 #001122; /* Outline depth */
+}
+.logo-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.logo-image {
+  width: 100%;
+  max-width: 500px; /* Adjust this as needed */
+  height: auto;
+  object-fit: contain;
+  filter: drop-shadow(4px 4px 8px rgba(0, 0, 0, 0.6)); /* Adds a nice shadow */
+  transition: transform 0.3s ease-in-out; /* For hover animation */
+}
+
+.logo-image:hover {
+  transform: scale(1.05); /* Slight zoom effect on hover */
+}
+@keyframes pulse {
+  0%, 100% {
+    transform: scale(1); /* Normal size */
+  }
+  50% {
+    transform: scale(1.03); /* Slightly larger (subtle effect) */
+  }
+}
+
+.logo-image {
+  transition: transform 0.5s ease-in-out;
+  filter: drop-shadow(4px 4px 8px rgba(0, 0, 0, 0.4)); /* Softer shadow for subtlety */
+  width: 100%;
+  max-width: 500px;
+  height: auto;
+}
+
+.is-playing {
+  animation: pulse 3s infinite ease-in-out; /* Slower and smoother */
+}
+
