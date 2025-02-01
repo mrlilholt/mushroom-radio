@@ -3,6 +3,7 @@ import { useState, useRef, useEffect, useCallback } from "react";
 import { Play, Pause } from "lucide-react";
 import { motion } from "framer-motion";
 import Sidebar from "@/components/Sidebar";
+import Image from 'next/image';
 
 
 
@@ -460,7 +461,15 @@ export default function Home() {
       {/* 🏷️ Title with Frosted Glass */}
       <div className="frosted-glass text-center">
         <div className="logo-container">
-          <img src="/mushroomRadioLogo.png" alt="Mushroom Radio Logo" className="logo-image" ref={logoRef} />
+        <Image 
+  src="/mushroomRadioLogo.png" 
+  alt="Mushroom Radio Logo" 
+  className="logo-image" 
+  ref={logoRef}
+  width={200}  // Adjust the width as needed
+  height={200} // Adjust the height as needed
+  priority      // Optional: improves LCP by prioritizing this image
+/>
         </div>
       </div>
 
