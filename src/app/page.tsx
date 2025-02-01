@@ -396,7 +396,7 @@ import Sidebar from "@/components/Sidebar";
 ];
 
 export default function Home() {
-  const [currentTrack, setCurrentTrack] = useState(Math.floor(Math.random() * playlist.length));
+  //const [currentTrack, setCurrentTrack] = useState(Math.floor(Math.random() * playlist.length));
   const [isPlaying, setIsPlaying] = useState(false);
   const [nowPlayingIndex, setNowPlayingIndex] = useState(Math.floor(Math.random() * fakeTracks.length));
   const audioRef = useRef<HTMLAudioElement>(null);
@@ -415,17 +415,17 @@ export default function Home() {
     return () => clearInterval(interval);
   }, []);
 
-  const togglePlay = () => {
+  const togglePlay = useCallback(() => {
     if (audioRef.current) {
       isPlaying ? audioRef.current.pause() : audioRef.current.play();
       setIsPlaying(!isPlaying);
   
-      // Add or remove the animation class
       if (logoRef.current) {
         logoRef.current.classList.toggle("is-playing", !isPlaying);
       }
     }
-  };
+  }, [isPlaying]);
+  
 
   useEffect(() => {
     const playAmbient = (id: string, condition: boolean) => {
@@ -480,8 +480,9 @@ export default function Home() {
 
       {/* 🎧 Audio Player */}
       <audio ref={audioRef} autoPlay>
-        <source src={playlist[currentTrack].url} type="audio/mp3" />
-      </audio>
+  <source src={playlist[nowPlayingIndex % playlist.length].url} type="audio/mp3" />
+</audio>
+
 
       {/* 🎮 Play/Pause Button */}
       <motion.button
