@@ -406,7 +406,6 @@ export default function Home() {
   const [rainSound, setRainSound] = useState(false);
   const [windSound, setWindSound] = useState(false);
   const [forestSound, setForestSound] = useState(false);
-
   useEffect(() => {
     const interval = setInterval(() => {
       setNowPlayingIndex((prevIndex) => (prevIndex + 1) % fakeTracks.length);
@@ -423,13 +422,12 @@ export default function Home() {
         audioRef.current.play();
       }
       setIsPlaying(!isPlaying);
-  
-      if (logoRef.current) {
+
+      if (logoRef.current) { // ✅ Explicit conditional check
         logoRef.current.classList.toggle("is-playing", !isPlaying);
       }
     }
   }, [isPlaying]);
-  
 
   useEffect(() => {
     const playAmbient = (id: string, condition: boolean) => {
@@ -461,11 +459,9 @@ export default function Home() {
 
       {/* 🏷️ Title with Frosted Glass */}
       <div className="frosted-glass text-center">
-      <div className="logo-container">
-      <img src="/mushroomRadioLogo.png" alt="Mushroom Radio Logo" className="logo-image" ref={logoRef} />
-
-  
-</div>
+        <div className="logo-container">
+          <img src="/mushroomRadioLogo.png" alt="Mushroom Radio Logo" className="logo-image" ref={logoRef} />
+        </div>
       </div>
 
       {/* 🎵 Now Playing Section */}
@@ -484,9 +480,8 @@ export default function Home() {
 
       {/* 🎧 Audio Player */}
       <audio ref={audioRef} autoPlay>
-  <source src={playlist[nowPlayingIndex % playlist.length].url} type="audio/mp3" />
-</audio>
-
+        <source src={playlist[nowPlayingIndex % playlist.length].url} type="audio/mp3" />
+      </audio>
 
       {/* 🎮 Play/Pause Button */}
       <motion.button
