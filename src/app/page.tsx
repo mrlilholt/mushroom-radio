@@ -422,14 +422,14 @@ export default function Home() {
       } else {
         audioRef.current.play();
       }
-      setIsPlaying(!isPlaying);
-
-      if (logoRef.current) { // ✅ Explicit conditional check
-        logoRef.current.classList.toggle("is-playing", !isPlaying);
+      setIsPlaying((prev) => !prev);  // Use a function to toggle state
+  
+      if (logoRef.current) {
+        logoRef.current.classList.toggle("is-playing", !isPlaying);  // Ensure this line isn't isolated
       }
     }
   }, [isPlaying]);
-
+  
   useEffect(() => {
     const playAmbient = (id: string, condition: boolean) => {
       const audioElement = document.getElementById(id) as HTMLAudioElement;
