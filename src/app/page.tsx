@@ -461,13 +461,9 @@ export default function Home() {
 
       {/* 🏷️ Title with Frosted Glass */}
       <div className="frosted-glass text-center">
-      <div class="logo-container">
-      <img 
-  src="/mushroomRadioLogo.png" 
-  alt="Mushroom Radio Logo" 
-  className="logo-image" 
-  //ref={logoRef} 
-  />
+      <div className="logo-container">
+      <img src="/mushroomRadioLogo.png" alt="Mushroom Radio Logo" className="logo-image" ref={logoRef} />
+
   
 </div>
       </div>
