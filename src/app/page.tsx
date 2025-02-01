@@ -429,7 +429,7 @@ export default function Home() {
         logoRef.current.classList.toggle("is-playing", !isPlaying);  // Ensure this line isn't isolated
       }
     }
-  }, [isPlaying]);
+);
   
   useEffect(() => {
     const playAmbient = (id: string, condition: boolean) => {
