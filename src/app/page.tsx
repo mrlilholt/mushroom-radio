@@ -425,6 +425,7 @@ export default function Home() {
       setIsPlaying((prev) => !prev);  // Use a function to toggle state
   
       if (logoRef.current) {
+        // eslint-disable-next-line @typescript-eslint/no-unused-expressions
         logoRef.current.classList.toggle("is-playing", !isPlaying);  // Ensure this line isn't isolated
       }
     }
