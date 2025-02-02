@@ -4,15 +4,6 @@ import { Play, Pause } from "lucide-react";
 import { motion } from "framer-motion";
 import Sidebar from "@/components/Sidebar";
 import Image from 'next/image';
-import Head from 'next/head';
-
-<Head>
-  <link rel="manifest" href="/manifest.json" />
-  <link rel="icon" href="/icon-192x192.png" type="image/png" />
-  <link rel="icon" href="/icon-512x512.png" type="image/png" />
-  <meta name="theme-color" content="#000000" />
-
-</Head>
 
 
 
@@ -475,21 +466,17 @@ export default function Home() {
       </video>
 
       {/* 🏷️ Title with Frosted Glass */}
-      <div className="frosted-glass text-center w-64 h-16 flex items-center justify-center">
-  <Image 
-    src="/mushroomRadioLogo.png" 
-    alt="Mushroom Radio Logo" 
-    className="logo-image" 
-    ref={logoRef}
-    layout="intrinsic" 
-    width={256}  // Match the width of "Now Playing"
-    height={64}  // Match the height
-    priority
-  />
-</div>
-
-
-
+      <div className="frosted-glass text-center">
+        <div className="logo-container">
+        <Image 
+  src="/mushroomRadioLogo.png" 
+  alt="Mushroom Radio Logo" 
+  className="logo-image" 
+  ref={logoRef}
+  width={200}  // Adjust the width as needed
+  height={200} // Adjust the height as needed
+  priority      // Optional: improves LCP by prioritizing this image
+/>
         </div>
       </div>
 
@@ -547,8 +534,8 @@ export default function Home() {
     checked={state}
     onChange={() => setState(!state)}
   />
-  <div className="w-11 h-6 bg-gray-300 rounded-full peer-checked:bg-green-400 transition duration-300 relative">
-    <div className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full shadow-md transform transition-transform duration-300 peer-checked:translate-x-5"></div>
+  <div className="w-11 h-6 bg-gray-300 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-500 rounded-full peer dark:bg-gray-700 peer-checked:bg-green-400 transition duration-300 relative">
+    <div className="absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform duration-300 peer-checked:translate-x-5"></div>
   </div>
 </label>
 
