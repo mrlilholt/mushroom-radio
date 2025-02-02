@@ -433,19 +433,23 @@ export default function Home() {
   }, [isPlaying]);
   
 
-useEffect(() => {
+  useEffect(() => {
     const playAmbient = (id: string, condition: boolean) => {
       const audioElement = document.getElementById(id) as HTMLAudioElement;
       if (audioElement) {
-        condition ? audioElement.play() : audioElement.pause();
+        if (condition) {
+          audioElement.play();
+        } else {
+          audioElement.pause();
+        }
       }
     };
-
+  
     playAmbient("rain-audio", rainSound);
     playAmbient("wind-audio", windSound);
     playAmbient("forest-audio", forestSound);
   }, [rainSound, windSound, forestSound]);
-
+  
   return (
     <main className="flex flex-col items-center space-y-6 bg-transparent text-white min-h-screen justify-center relative w-full">
       <Sidebar />
