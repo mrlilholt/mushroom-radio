@@ -453,7 +453,7 @@ export default function Home() {
   return (
     <main className="flex flex-col items-center space-y-6 bg-transparent text-white min-h-screen justify-center relative w-full">
       <Sidebar />
-
+  
       {/* 🎥 Background Video */}
       <video
         autoPlay
@@ -464,21 +464,22 @@ export default function Home() {
       >
         <source src="/mushroom_bg.mp4" type="video/mp4" />
       </video>
-
+  
       {/* 🏷️ Title with Frosted Glass */}
       <div className="frosted-glass text-center uniform-box">
-  <Image 
-    src="/mushroomRadioLogo.png" 
-    alt="Mushroom Radio Logo" 
-    className="logo-image" 
-    width={256} 
-    height={64}
-    priority
-  />
-</div>
-
-        </div>
-      </div>
+        <Image 
+          src="/mushroomRadioLogo.png" 
+          alt="Mushroom Radio Logo" 
+          className="logo-image" 
+          width={256} 
+          height={64}
+          priority
+        />
+      </div> {/* This is the correct closing tag */}
+  
+    </main>  {/* Close the <main> tag here */}
+  );
+  
 
       {/* 🎵 Now Playing Section */}
       <div className="frosted-glass text-center uniform-box">
