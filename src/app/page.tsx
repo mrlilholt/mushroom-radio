@@ -9,6 +9,10 @@ import Image from 'next/image';
 
   // 🎵 Playlist Array (Actual Audio Tracks)
   const playlist = [
+    { title: "cassette Vibes ☕", url: "https://res.cloudinary.com/dkewu76nu/video/upload/v1738346564/Cassetteski_zowc8m.mp3" },
+    { title: "study Dreams 🌙", url: "https://res.cloudinary.com/dkewu76nu/video/upload/v1738345514/studyski_vqivrj.mp3" },
+    { title: "focus Beats 🌆", url: "https://res.cloudinary.com/dkewu76nu/video/upload/v1738345300/focuski_eqbdst.mp3" },
+    { title: "chill Time 🌙", url: "https://res.cloudinary.com/dkewu76nu/video/upload/v1738337991/chillski_mhtmln.mp3" },
     { title: "Chill Vibes ☕", url: "https://res.cloudinary.com/dkewu76nu/video/upload/v1738196209/csb5_mkgvbg.mp3" },
     { title: "Lofi Dreams 🌙", url: "https://res.cloudinary.com/dkewu76nu/video/upload/v1738196022/csb2_y7qffy.mp3" },
     { title: "Chill Beats 🌆", url: "https://res.cloudinary.com/dkewu76nu/video/upload/v1738202860/Chill_Study_Music_chill_lo-fi_hip_hop_beats_5_pgfz35.mp3" },
