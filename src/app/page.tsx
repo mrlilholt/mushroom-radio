@@ -471,12 +471,12 @@ export default function Home() {
         <Image 
   src="/mushroomRadioLogo.png" 
   alt="Mushroom Radio Logo" 
-  className="logo-image" 
+  className="logo-image w-full h-auto max-w-xs sm:max-w-md" 
   ref={logoRef}
-  width={200}  // Adjust the width as needed
-  height={200} // Adjust the height as needed
-  priority      // Optional: improves LCP by prioritizing this image
+  priority
 />
+
+
         </div>
       </div>
 
@@ -535,8 +535,9 @@ export default function Home() {
     onChange={() => setState(!state)}
   />
   <div className="w-11 h-6 bg-gray-300 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-500 rounded-full peer dark:bg-gray-700 peer-checked:bg-green-400 transition duration-300 relative">
-    <div className="absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform duration-300 peer-checked:translate-x-5"></div>
-  </div>
+  <div className="absolute top-1 left-1 bg-white w-4 h-4 rounded-full transition-transform duration-300 peer-checked:translate-x-5 peer-checked:left-auto peer-checked:right-1"></div>
+</div>
+
 </label>
 
           </div>
