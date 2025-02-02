@@ -417,23 +417,20 @@ export default function Home() {
 
   const togglePlay = useCallback(() => {
     if (audioRef.current) {
-      const newIsPlaying = !isPlaying; // Toggle and store the new state
-      setIsPlaying(newIsPlaying);       // Update state
-  
-      if (newIsPlaying) {
-        audioRef.current.play();
-      } else {
+      if (isPlaying) {
         audioRef.current.pause();
+      } else {
+        audioRef.current.play();
       }
+      setIsPlaying((prev) => !prev);  // Use a function to toggle state
   
       if (logoRef.current) {
-        logoRef.current.classList.toggle("is-playing", newIsPlaying); // Use the updated state
+        logoRef.current.classList.toggle("is-playing", !isPlaying); 
       }
     }
   }, [isPlaying]);
   
-
-useEffect(() => {
+  useEffect(() => {
     const playAmbient = (id: string, condition: boolean) => {
       const audioElement = document.getElementById(id) as HTMLAudioElement;
       if (audioElement) {
