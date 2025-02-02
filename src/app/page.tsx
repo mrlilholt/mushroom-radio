@@ -4,6 +4,13 @@ import { Play, Pause } from "lucide-react";
 import { motion } from "framer-motion";
 import Sidebar from "@/components/Sidebar";
 import Image from 'next/image';
+import Head from 'next/head';
+
+<Head>
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="icon" href="/icon-192x192.png" type="image/png" />
+  <meta name="theme-color" content="#000000" />
+</Head>
 
 
 
