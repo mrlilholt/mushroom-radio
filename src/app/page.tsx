@@ -534,10 +534,12 @@ export default function Home() {
     checked={state}
     onChange={() => setState(!state)}
   />
-  <div className="w-11 h-6 bg-gray-300 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-500 rounded-full peer dark:bg-gray-700 peer-checked:bg-green-400 transition duration-300 relative">
+  {/* Toggle background */}
+  <div className="w-11 h-6 bg-gray-300 rounded-full peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-500 dark:bg-gray-700 peer-checked:bg-green-400 transition duration-300"></div>
+  {/* Toggle circle */}
   <div className="absolute left-1 top-1 bg-white w-4 h-4 rounded-full transform transition-transform duration-300 peer-checked:translate-x-5"></div>
-  </div>
 </label>
+
 
           </div>
         ))}
