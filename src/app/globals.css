@@ -82,3 +82,6 @@ body {
   animation: pulse 3s infinite ease-in-out; /* Slower and smoother */
 }
 
+.peer-checked:translate-x-5 {
+  transform: translateX(5px);
+}
