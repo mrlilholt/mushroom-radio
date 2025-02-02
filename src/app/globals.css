@@ -85,3 +85,8 @@ body {
 .peer-checked:translate-x-5 {
   transform: translateX(5px);
 }
+.uniform-box {
+  width: 300px; /* Adjust this value as needed */
+  max-width: 90%;  /* For responsiveness */
+  margin: 0 auto;  /* Center alignment */
+}

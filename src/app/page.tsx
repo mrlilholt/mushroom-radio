@@ -466,33 +466,34 @@ export default function Home() {
       </video>
 
       {/* 🏷️ Title with Frosted Glass */}
-      <div className="frosted-glass text-center">
-        <div className="logo-container">
-        <Image 
-  src="/mushroomRadioLogo.png" 
-  alt="Mushroom Radio Logo" 
-  className="logo-image" 
-  ref={logoRef}
-  width={200}  // Adjust the width as needed
-  height={200} // Adjust the height as needed
-  priority      // Optional: improves LCP by prioritizing this image
-/>
+      <div className="frosted-glass text-center uniform-box">
+  <Image 
+    src="/mushroomRadioLogo.png" 
+    alt="Mushroom Radio Logo" 
+    className="logo-image" 
+    width={256} 
+    height={64}
+    priority
+  />
+</div>
+
         </div>
       </div>
 
       {/* 🎵 Now Playing Section */}
-      <div className="frosted-glass text-center">
-        <p className="title-font text-2xl font-semibold text-blue-300">Now Playing:</p>
-        <div className="relative w-64 h-10 bg-white/10 px-6 py-2 rounded-lg shadow-md overflow-hidden">
-          <motion.div
-            className="absolute left-0 w-max whitespace-nowrap"
-            animate={{ x: ["100%", "-100%"] }}
-            transition={{ repeat: Infinity, duration: 8, ease: "linear" }}
-          >
-            {fakeTracks[nowPlayingIndex].song} - {fakeTracks[nowPlayingIndex].artist}
-          </motion.div>
-        </div>
-      </div>
+      <div className="frosted-glass text-center uniform-box">
+  <p className="title-font text-2xl font-semibold text-blue-300">Now Playing:</p>
+  <div className="relative w-full h-10 bg-white/10 px-6 py-2 rounded-lg shadow-md overflow-hidden">
+    <motion.div
+      className="absolute left-0 w-max whitespace-nowrap"
+      animate={{ x: ["100%", "-100%"] }}
+      transition={{ repeat: Infinity, duration: 8, ease: "linear" }}
+    >
+      {fakeTracks[nowPlayingIndex].song} - {fakeTracks[nowPlayingIndex].artist}
+    </motion.div>
+  </div>
+</div>
+
 
       {/* 🎧 Audio Player */}
       <audio ref={audioRef} autoPlay>
@@ -519,29 +520,29 @@ export default function Home() {
       </motion.button>
 
       {/* 🌿 Ambient Sound Toggles with Frosted Glass */}
-      <div className="frosted-glass flex space-x-4 mt-4">
-        {[
-          { label: "Rain", state: rainSound, setState: setRainSound, id: "rain-audio" },
-          { label: "Wind", state: windSound, setState: setWindSound, id: "wind-audio" },
-          { label: "Forest", state: forestSound, setState: setForestSound, id: "forest-audio" },
-        ].map(({ label, state, setState }, index) => (
-          <div key={index} className="flex items-center space-x-2">
-            <span>{label}</span>
-            <label className="relative inline-flex items-center cursor-pointer">
-  <input
-    type="checkbox"
-    className="sr-only peer"
-    checked={state}
-    onChange={() => setState(!state)}
-  />
-  <div className="w-11 h-6 bg-gray-300 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-blue-500 rounded-full peer dark:bg-gray-700 peer-checked:bg-green-400 transition duration-300 relative">
-    <div className="absolute left-1 top-1 bg-white w-4 h-4 rounded-full transition-transform duration-300 peer-checked:translate-x-5"></div>
-  </div>
-</label>
+      <div className="frosted-glass flex space-x-4 mt-4 uniform-box justify-center">
+  {[
+    { label: "Rain", state: rainSound, setState: setRainSound, id: "rain-audio" },
+    { label: "Wind", state: windSound, setState: setWindSound, id: "wind-audio" },
+    { label: "Forest", state: forestSound, setState: setForestSound, id: "forest-audio" },
+  ].map(({ label, state, setState }, index) => (
+    <div key={index} className="flex items-center space-x-2">
+      <span>{label}</span>
+      <label className="relative inline-flex items-center cursor-pointer">
+        <input
+          type="checkbox"
+          className="sr-only peer"
+          checked={state}
+          onChange={() => setState(!state)}
+        />
+        <div className="w-11 h-6 bg-gray-300 rounded-full peer-checked:bg-green-400 transition duration-300 relative">
+          <div className="absolute left-1 top-1 w-4 h-4 bg-white rounded-full shadow-md transform transition-transform duration-300 peer-checked:translate-x-5"></div>
+        </div>
+      </label>
+    </div>
+  ))}
+</div>
 
-          </div>
-        ))}
-      </div>
 
       {/* 🎧 Ambient Audio Elements */}
       <audio id="rain-audio" loop>
