@@ -43,8 +43,11 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 20px;
+  width: 100%;
+  max-width: 400px; /* Matches the Now Playing box */
+  margin: 0 auto;
 }
+
 
 .logo-image {
   width: 100%;

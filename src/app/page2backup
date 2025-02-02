@@ -417,32 +417,39 @@ export default function Home() {
 
   const togglePlay = useCallback(() => {
     if (audioRef.current) {
-      if (isPlaying) {
-        audioRef.current.pause();
-      } else {
+      const newIsPlaying = !isPlaying; // Toggle and store the new state
+      setIsPlaying(newIsPlaying);       // Update state
+  
+      if (newIsPlaying) {
         audioRef.current.play();
+      } else {
+        audioRef.current.pause();
       }
-      setIsPlaying((prev) => !prev);  // Use a function to toggle state
   
       if (logoRef.current) {
-        logoRef.current.classList.toggle("is-playing", !isPlaying); 
+        logoRef.current.classList.toggle("is-playing", newIsPlaying); // Use the updated state
       }
     }
   }, [isPlaying]);
   
+
   useEffect(() => {
     const playAmbient = (id: string, condition: boolean) => {
       const audioElement = document.getElementById(id) as HTMLAudioElement;
       if (audioElement) {
-        condition ? audioElement.play() : audioElement.pause();
+        if (condition) {
+          audioElement.play();
+        } else {
+          audioElement.pause();
+        }
       }
     };
-
+  
     playAmbient("rain-audio", rainSound);
     playAmbient("wind-audio", windSound);
     playAmbient("forest-audio", forestSound);
   }, [rainSound, windSound, forestSound]);
-
+  
   return (
     <main className="flex flex-col items-center space-y-6 bg-transparent text-white min-h-screen justify-center relative w-full">
       <Sidebar />
