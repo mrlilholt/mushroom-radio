@@ -13,12 +13,13 @@ export default function About() {
 
       {/* 📝 Description */}
       <p className="text-lg text-gray-300 text-center max-w-xl">
-        A **lo-fi music** experience with a sleek aesthetic, built with modern web technologies.  
-        The whole point of this bad boy is to allow mushroom enthusiasts to chill out and listen to some sweet tunes.  
-        It also allows for users to add sounds to the musics.  
-        If you are in a no-rain-no-mushroom state of being, you can quickly flip on the rain effect.  
-        It's here to make mushroom people happy even in the coldest and driest of times.
-      </p>
+  A **lo-fi music** experience with a sleek aesthetic, built with modern web technologies.  
+  The whole point of this bad boy is to allow mushroom enthusiasts to chill out and listen to some sweet tunes.  
+  It also allows for users to add sounds to the musics.  
+  If you are in a no-rain-no-mushroom state of being, you can quickly flip on the rain effect.  
+  It&apos;s here to make mushroom people happy even in the coldest and driest of times.
+</p>
+
 
       {/* ⚙️ Tech Stack Section */}
       <div className="mt-8 space-y-4 text-lg">
