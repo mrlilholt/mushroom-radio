@@ -499,9 +499,24 @@ export default function Home() {
       </div>
 
       {/* 🎧 Audio Player */}
-      <audio ref={audioRef} autoPlay>
-        <source src={playlist[nowPlayingIndex % playlist.length].url} type="audio/mp3" />
-      </audio>
+      <audio
+  ref={audioRef}
+  autoPlay
+  onEnded={() => {
+    // Update the nowPlayingIndex to the next song in the playlist.
+    setNowPlayingIndex((prevIndex) => (prevIndex + 1) % playlist.length);
+    // Optionally, call play() explicitly in case autoPlay doesn't trigger after source change.
+    if (audioRef.current) {
+      audioRef.current.play();
+    }
+  }}
+>
+  <source
+    src={playlist[nowPlayingIndex % playlist.length].url}
+    type="audio/mp3"
+  />
+</audio>
+
 
       {/* 🎮 Play/Pause Button */}
       <motion.button
