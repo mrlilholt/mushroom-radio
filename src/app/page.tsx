@@ -457,6 +457,7 @@ export default function Home() {
     setNowPlayingIndex(0);
     if (audioRef.current) {
       audioRef.current.pause();
+      audioRef.current.load(); // force reload with updated source
     }
     setIsPlaying(false);
   };
