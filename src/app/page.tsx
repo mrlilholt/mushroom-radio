@@ -7,21 +7,27 @@ import Image from "next/image";
 
 // 🎵 Chill Radio Playlist (Actual Audio Tracks)
 const chillPlaylist = [
+  { title: "cassette Vibes ☕", url: "https://res.cloudinary.com/dtvecsd0q/video/upload/v1739497734/Seoul_City_View_-_chill___lofi_hiphop_beats_to_sleep_relax_study_to___%E1%84%85%E1%85%A9%E1%84%91%E1%85%A1%E1%84%8B%E1%85%B5_%E1%84%89%E1%85%A5%E1%84%8B%E1%85%AE%E1%86%AF_%E1%84%89%E1%85%B5%E1%84%90%E1%85%B5_%E1%84%8B%E1%85%A3%E1%84%80%E1%85%A7%E1%86%BC_%E1%84%80%E1%85%A1%E1%86%B7%E1%84%89%E1%85%A1%E1%86%BC_%E1%84%82%E1%85%A6%E1%84%8B%E1%85%A9%E1%86%AB%E1%84%89%E1%85%B5%E1%84%90%E1%85%B5_4_eizdpn.mp3" },
+  { title: "cassette Vibes ☕", url: "https://res.cloudinary.com/dtvecsd0q/video/upload/v1739497428/comfort_zone._4_mvgogu.mp3" },
+  { title: "cassette Vibes ☕", url: "https://res.cloudinary.com/dtvecsd0q/video/upload/v1739496827/SNOWING_IN_%EF%BC%AF%EF%BC%B3%EF%BC%A1%EF%BC%AB%EF%BC%A1_Lofi_Hip_Hop_4_dwjuaw.mp3" },
+  { title: "cassette Vibes ☕", url: "https://res.cloudinary.com/dtvecsd0q/video/upload/v1739496795/Chill_Work_Music_chill_lo-fi_hip_hop_beats_4_soqp92.mp3" },
+  { title: "cassette Vibes ☕", url: "https://res.cloudinary.com/dtvecsd0q/video/upload/v1739496721/Lofi_Beats_Mix_chill_lo-fi_hip_hop_beats_4_jvhske.mp3" },
   { title: "cassette Vibes ☕", url: "https://res.cloudinary.com/dkewu76nu/video/upload/v1738346564/Cassetteski_zowc8m.mp3" },
   { title: "study Dreams 🌙", url: "https://res.cloudinary.com/dkewu76nu/video/upload/v1738345514/studyski_vqivrj.mp3" },
   { title: "focus Beats 🌆", url: "https://res.cloudinary.com/dkewu76nu/video/upload/v1738345300/focuski_eqbdst.mp3" },
   { title: "chill Time 🌙", url: "https://res.cloudinary.com/dkewu76nu/video/upload/v1738337991/chillski_mhtmln.mp3" },
   { title: "Chill Vibes ☕", url: "https://res.cloudinary.com/dkewu76nu/video/upload/v1738196209/csb5_mkgvbg.mp3" },
   { title: "Lofi Dreams 🌙", url: "https://res.cloudinary.com/dkewu76nu/video/upload/v1738196022/csb2_y7qffy.mp3" },
+  { title: "Game Beats 🎮", url: "https://res.cloudinary.com/dkewu76nu/video/upload/v1738268132/gamers_wf07pg.mp3" },
   { title: "Chill Beats 🌆", url: "https://res.cloudinary.com/dkewu76nu/video/upload/v1738202860/Chill_Study_Music_chill_lo-fi_hip_hop_beats_5_pgfz35.mp3" },
-  { title: "Night Beats 🌆", url: "https://res.cloudinary.com/dkewu76nu/video/upload/v1738195960/beats_nvkrgk.mp3" },
 ];
 
 // 🎵 Boom Bap Radio Playlist (New Playlist)
 const boomBapPlaylist = [
-  { title: "Game Beats 🎮", url: "https://res.cloudinary.com/dkewu76nu/video/upload/v1738268132/gamers_wf07pg.mp3" },
-  { title: "Day Beats 🌆", url: "https://res.cloudinary.com/dkewu76nu/video/upload/v1738196197/beats2_q2olzm.mp3" },
-  { title: "Lofi Time 🌙", url: "https://res.cloudinary.com/dkewu76nu/video/upload/v1738202770/vbeats_rbqh2w.mp3" },
+  { title: "boom bap rooty toot toot 🌙", url: "https://res.cloudinary.com/dtvecsd0q/video/upload/v1739497605/Scratches_Jazz_Boom_Bap__A_True_Hip-Hop_Experience_4_pj5awd.mp3" },
+  { title: "boom bap crazy", url: "https://res.cloudinary.com/dkewu76nu/video/upload/v1738195960/beats_nvkrgk.mp3" },
+  { title: "boom bap city 🌆", url: "https://res.cloudinary.com/dkewu76nu/video/upload/v1738196197/beats2_q2olzm.mp3" },
+  { title: "boom bap rooty toot toot 🌙", url: "https://res.cloudinary.com/dkewu76nu/video/upload/v1738202770/vbeats_rbqh2w.mp3" },
 ];
 
 // 🍄 Fake "Now Playing" Track Titles
@@ -405,7 +411,9 @@ const fakeTracks = [
 export default function Home() {
   const [activePlaylist, setActivePlaylist] = useState<"chill" | "boombap">("chill");
   // nowPlayingIndex applies to the active playlist
-  const [nowPlayingIndex, setNowPlayingIndex] = useState(0);
+  const [nowPlayingIndex, setNowPlayingIndex] = useState(
+    Math.floor(Math.random() * chillPlaylist.length)
+  );
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef<HTMLAudioElement>(null);
   const logoRef = useRef<HTMLImageElement>(null);
@@ -451,13 +459,38 @@ export default function Home() {
     }
   }, [isPlaying]);
 
-  const handlePlaylistToggle = (playlist: "chill" | "boombap") => {
-    // When toggling, reset index and pause current playback
-    setActivePlaylist(playlist);
-    setNowPlayingIndex(0);
+  const handleReplay = () => {
+    if (audioRef.current) {
+      audioRef.current.currentTime = 0;
+      if (isPlaying) {
+        audioRef.current.play();
+      }
+    }
+  };
+
+  const handleSkip = () => {
+    setNowPlayingIndex((prevIndex) => (prevIndex + 1) % currentPlaylist.length);
     if (audioRef.current) {
       audioRef.current.pause();
-      audioRef.current.load(); // force reload with updated source
+      audioRef.current.load();
+      if (isPlaying) {
+        audioRef.current.play();
+      }
+    }
+  };
+
+  const handlePlaylistToggle = (playlist: "chill" | "boombap") => {
+    setActivePlaylist(playlist);
+    // Pick a random index for the new playlist
+    const newIndex =
+      Math.floor(
+        Math.random() *
+          (playlist === "chill" ? chillPlaylist.length : boomBapPlaylist.length)
+      );
+    setNowPlayingIndex(newIndex);
+    if (audioRef.current) {
+      audioRef.current.pause();
+      audioRef.current.load();
     }
     setIsPlaying(false);
   };
@@ -558,6 +591,22 @@ export default function Home() {
       >
         {isPlaying ? <Pause className="w-10 h-10" /> : <Play className="w-10 h-10" />}
       </motion.button>
+
+      {/* 🔄 Replay and Skip Buttons */}
+      <div className="flex space-x-4">
+        <button 
+          onClick={handleReplay} 
+          className="px-4 py-2 rounded bg-blue-500 shadow-md text-white"
+        >
+          Replay
+        </button>
+        <button 
+          onClick={handleSkip} 
+          className="px-4 py-2 rounded bg-blue-500 shadow-md text-white"
+        >
+          Skip
+        </button>
+      </div>
 
       {/* 🌿 Ambient Sound Toggles with Frosted Glass */}
       <div className="frosted-glass flex space-x-4 mt-4">
