@@ -1,6 +1,6 @@
 "use client";
 import { useState, useRef, useEffect, useCallback } from "react";
-import { Play, Pause } from "lucide-react";
+import { Play, Pause, RotateCcw, SkipForward } from "lucide-react";
 import { motion } from "framer-motion";
 import Sidebar from "@/components/Sidebar";
 import Image from "next/image";
@@ -594,18 +594,22 @@ export default function Home() {
 
       {/* 🔄 Replay and Skip Buttons */}
       <div className="flex space-x-4">
-        <button 
-          onClick={handleReplay} 
-          className="px-4 py-2 rounded bg-blue-500 shadow-md text-white"
+        <motion.button
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          onClick={handleReplay}
+          className="w-12 h-12 flex items-center justify-center rounded bg-blue-500 shadow-md text-white"
         >
-          Replay
-        </button>
-        <button 
-          onClick={handleSkip} 
-          className="px-4 py-2 rounded bg-blue-500 shadow-md text-white"
+          <RotateCcw className="w-6 h-6" />
+        </motion.button>
+        <motion.button
+          whileHover={{ scale: 1.1 }}
+          whileTap={{ scale: 0.9 }}
+          onClick={handleSkip}
+          className="w-12 h-12 flex items-center justify-center rounded bg-blue-500 shadow-md text-white"
         >
-          Skip
-        </button>
+          <SkipForward className="w-6 h-6" />
+        </motion.button>
       </div>
 
       {/* 🌿 Ambient Sound Toggles with Frosted Glass */}
