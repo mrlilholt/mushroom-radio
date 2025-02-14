@@ -33,7 +33,7 @@ const boomBapPlaylist = [
 
 // 🎵 Acoustic Hiking Radio Playlist (New Playlist)
 const acousticHikingPlaylist = [
-  { title: "Acoustic Trail", url: "https://asset.cloudinary.com/dkbkpdugz/6cbd2f95cdf5c1a1a0be777e76a19f3f" },
+  { title: "Acoustic Trail", url: "https://res.cloudinary.com/dkbkpdugz/video/upload/v1739302961/music/Misc/Unplug_and_Unwind__A_1_Hour_Acoustic_Chill_Playlist_for_Relaxation_4_t6uftg.mp3" },
 ];
 
 // 🍄 Fake "Now Playing" Track Titles
