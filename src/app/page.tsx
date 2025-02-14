@@ -9,6 +9,7 @@ import Image from "next/image";
 const chillPlaylist = [
   { title: "cassette Vibes ☕", url: "https://res.cloudinary.com/dtvecsd0q/video/upload/v1739497734/Seoul_City_View_-_chill___lofi_hiphop_beats_to_sleep_relax_study_to___%E1%84%85%E1%85%A9%E1%84%91%E1%85%A1%E1%84%8B%E1%85%B5_%E1%84%89%E1%85%A5%E1%84%8B%E1%85%AE%E1%86%AF_%E1%84%89%E1%85%B5%E1%84%90%E1%85%B5_%E1%84%8B%E1%85%A3%E1%84%80%E1%85%A7%E1%86%BC_%E1%84%80%E1%85%A1%E1%86%B7%E1%84%89%E1%85%A1%E1%86%BC_%E1%84%82%E1%85%A6%E1%84%8B%E1%85%A9%E1%86%AB%E1%84%89%E1%85%B5%E1%84%90%E1%85%B5_4_eizdpn.mp3" },
   { title: "cassette Vibes ☕", url: "https://res.cloudinary.com/dtvecsd0q/video/upload/v1739497428/comfort_zone._4_mvgogu.mp3" },
+  { title: "cassette Vibes ☕", url: "https://res.cloudinary.com/dtvecsd0q/video/upload/v1739498833/Just_wanna_stay_here_forever_lofi_hip_hop_mix_4_waxyif.mp3" },
   { title: "cassette Vibes ☕", url: "https://res.cloudinary.com/dtvecsd0q/video/upload/v1739496827/SNOWING_IN_%EF%BC%AF%EF%BC%B3%EF%BC%A1%EF%BC%AB%EF%BC%A1_Lofi_Hip_Hop_4_dwjuaw.mp3" },
   { title: "cassette Vibes ☕", url: "https://res.cloudinary.com/dtvecsd0q/video/upload/v1739496795/Chill_Work_Music_chill_lo-fi_hip_hop_beats_4_soqp92.mp3" },
   { title: "cassette Vibes ☕", url: "https://res.cloudinary.com/dtvecsd0q/video/upload/v1739496721/Lofi_Beats_Mix_chill_lo-fi_hip_hop_beats_4_jvhske.mp3" },
@@ -28,6 +29,11 @@ const boomBapPlaylist = [
   { title: "boom bap crazy", url: "https://res.cloudinary.com/dkewu76nu/video/upload/v1738195960/beats_nvkrgk.mp3" },
   { title: "boom bap city 🌆", url: "https://res.cloudinary.com/dkewu76nu/video/upload/v1738196197/beats2_q2olzm.mp3" },
   { title: "boom bap rooty toot toot 🌙", url: "https://res.cloudinary.com/dkewu76nu/video/upload/v1738202770/vbeats_rbqh2w.mp3" },
+];
+
+// 🎵 Acoustic Hiking Radio Playlist (New Playlist)
+const acousticHikingPlaylist = [
+  { title: "Acoustic Trail", url: "https://asset.cloudinary.com/dkbkpdugz/6cbd2f95cdf5c1a1a0be777e76a19f3f" },
 ];
 
 // 🍄 Fake "Now Playing" Track Titles
@@ -409,7 +415,7 @@ const fakeTracks = [
 ];
 
 export default function Home() {
-  const [activePlaylist, setActivePlaylist] = useState<"chill" | "boombap">("chill");
+  const [activePlaylist, setActivePlaylist] = useState<"chill" | "boombap" | "acoustic">("chill");
   // nowPlayingIndex applies to the active playlist
   const [nowPlayingIndex, setNowPlayingIndex] = useState(
     Math.floor(Math.random() * chillPlaylist.length)
@@ -419,7 +425,12 @@ export default function Home() {
   const logoRef = useRef<HTMLImageElement>(null);
 
   // use currentPlaylist based on activePlaylist state
-  const currentPlaylist = activePlaylist === "chill" ? chillPlaylist : boomBapPlaylist;
+  const currentPlaylist =
+    activePlaylist === "chill"
+      ? chillPlaylist
+      : activePlaylist === "boombap"
+      ? boomBapPlaylist
+      : acousticHikingPlaylist;
 
   // Remove auto playback effect on page load
 
@@ -479,13 +490,13 @@ export default function Home() {
     }
   };
 
-  const handlePlaylistToggle = (playlist: "chill" | "boombap") => {
+  const handlePlaylistToggle = (playlist: "chill" | "boombap" | "acoustic") => {
     setActivePlaylist(playlist);
     // Pick a random index for the new playlist
     const newIndex =
       Math.floor(
         Math.random() *
-          (playlist === "chill" ? chillPlaylist.length : boomBapPlaylist.length)
+          (playlist === "chill" ? chillPlaylist.length : playlist === "boombap" ? boomBapPlaylist.length : acousticHikingPlaylist.length)
       );
     setNowPlayingIndex(newIndex);
     if (audioRef.current) {
@@ -539,6 +550,12 @@ export default function Home() {
         >
           Boom Bap Radio
         </button>
+        <button
+          onClick={() => handlePlaylistToggle("acoustic")}
+          className={`px-4 py-2 rounded ${activePlaylist === "acoustic" ? "bg-green-500" : "bg-gray-500"}`}
+        >
+          Acoustic Hiking Radio
+        </button>
       </div>
 
       {/* 🎵 Now Playing Section */}
@@ -569,44 +586,42 @@ export default function Home() {
         <source src={currentPlaylist[nowPlayingIndex].url} type="audio/mp3" />
       </audio>
 
-      {/* 🎮 Play/Pause Button */}
-      <motion.button
-        whileHover={{ scale: 1.2 }}
-        whileTap={{ scale: 0.9 }}
-        animate={
-          isPlaying
-            ? {
-                scale: [1, 1.1, 1],
-                boxShadow: [
-                  "0px 0px 10px #ff00ff",
-                  "0px 0px 20px #ff9900",
-                  "0px 0px 10px #ff00ff",
-                ],
-              }
-            : {}
-        }
-        transition={isPlaying ? { duration: 1, repeat: Infinity, ease: "easeInOut" } : {}}
-        onClick={togglePlay}
-        className="w-16 h-16 flex items-center justify-center rounded-full bg-gray-800 shadow-lg border-2 border-white"
-      >
-        {isPlaying ? <Pause className="w-10 h-10" /> : <Play className="w-10 h-10" />}
-      </motion.button>
-
-      {/* 🔄 Replay and Skip Buttons */}
-      <div className="flex space-x-4">
+      {/* 🎮 Playback Controls */}
+      <div className="flex items-center space-x-4">
         <motion.button
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
           onClick={handleReplay}
-          className="w-12 h-12 flex items-center justify-center rounded bg-blue-500 shadow-md text-white"
+          className="w-12 h-12 flex items-center justify-center rounded-full bg-black shadow-md text-white"
         >
           <RotateCcw className="w-6 h-6" />
+        </motion.button>
+        <motion.button
+          whileHover={{ scale: 1.2 }}
+          whileTap={{ scale: 0.9 }}
+          animate={
+            isPlaying
+              ? {
+                  scale: [1, 1.1, 1],
+                  boxShadow: [
+                    "0px 0px 10px #ff00ff",
+                    "0px 0px 20px #ff9900",
+                    "0px 0px 10px #ff00ff",
+                  ],
+                }
+              : {}
+          }
+          transition={isPlaying ? { duration: 1, repeat: Infinity, ease: "easeInOut" } : {}}
+          onClick={togglePlay}
+          className="w-16 h-16 flex items-center justify-center rounded-full bg-gray-800 shadow-lg border-2 border-white"
+        >
+          {isPlaying ? <Pause className="w-10 h-10" /> : <Play className="w-10 h-10" />}
         </motion.button>
         <motion.button
           whileHover={{ scale: 1.1 }}
           whileTap={{ scale: 0.9 }}
           onClick={handleSkip}
-          className="w-12 h-12 flex items-center justify-center rounded bg-blue-500 shadow-md text-white"
+          className="w-12 h-12 flex items-center justify-center rounded-full bg-black shadow-md text-white"
         >
           <SkipForward className="w-6 h-6" />
         </motion.button>
